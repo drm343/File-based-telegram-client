@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+source ./is.sh
+
+PROGRAM=./main.py
+PID="/tmp/tg.pid"
+LOG="/tmp/tg.log"
+EDITOR="editor/vim.sh"
+
+
+tg_file_start () {
+    python $PROGRAM > $LOG 2>&1 &
+    echo $! > $PID
+}
+
+
+tg_file_stop () {
+    kill -9 `cat $PID`
+    rm $PID
+}
+
+
+tg_file_debug_start () {
+    python $PROGRAM
+    echo $! > $PID
+}
+
+
+tg_file_status () {
+    if is existing "$PID"; then
+        echo "running `cat $PID`"
+    else
+        echo "stop"
+    fi
+}
+
+
+tg_file_editor () {
+    bash $EDITOR
+}
+
+
+case "$1" in
+'start')
+  tg_file_start
+  ;;
+'debug')
+  tg_file_debug_start
+  ;;
+'stop')
+  tg_file_stop
+  ;;
+'restart')
+  tg_file_stop
+  tg_file_start
+  ;;
+'status')
+  tg_file_status
+  ;;
+'editor')
+  tg_file_editor
+  ;;
+*)
+  echo "usage $0 start|stop|restart|debug|status|editor"
+esac

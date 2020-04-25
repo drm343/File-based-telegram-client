@@ -1,0 +1,6 @@
+{
+  "api_id": 100000,
+  "api_hash": "bf5ec06a9e9b18be245ae94d9494bf38",
+  "phone": "token_or_phone_number",
+  "database_encryption_key": "type_key_here_with_anything"
+}
